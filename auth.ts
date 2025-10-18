@@ -1,5 +1,5 @@
 import NextAuth from "next-auth";
-import db from "./lib/db";
+import db from "./app/lib/db";
 import bcrypt from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -21,6 +21,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       credentials: {
         email: {},
         password: {},
+        name: {},
+        username: {},
       },
       async authorize(credentials) {
         let user = (
@@ -41,6 +43,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             id: String(user.id),
             email: user.email,
             name: user.name,
+            username: user.username,
           };
         }
 
@@ -57,6 +60,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.id = user.id;
         token.email = user.email;
         token.name = user.name;
+        token.username = user.username;
       }
       return token;
     },
@@ -66,6 +70,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.id = token.id as string;
         session.user.email = token.email as string;
         session.user.name = token.name as string;
+        session.user.username = token.username as string;
       }
       return session;
     },

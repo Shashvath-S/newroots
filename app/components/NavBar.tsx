@@ -1,6 +1,11 @@
 import Image from "next/image";
+import SignOutButton from "./SignOutButton";
+
+import { auth } from "@/auth";
 
 export default async function NavBar() {
+  const session = await auth();
+  console.log(session);
   return (
     <nav className="flex justify-between items-center box-border max-w-full m-8 mb-0">
       <div className="flex items-center">
@@ -15,6 +20,7 @@ export default async function NavBar() {
           <a href="/community">Community</a>
           <a href="/messaging">Messaging</a>
           <a href="/contact-us">Contact Us</a>
+          <SignOutButton />
         </div>
       </div>
     </nav>

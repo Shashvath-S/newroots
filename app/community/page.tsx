@@ -13,12 +13,8 @@ export default function Community() {
           </div>
         </section>
 
-        <div className="w-full overflow-hidden">
-          <img
-            src=""
-            alt="park crowd"
-            className="w-full h-56 md:h-80 object-cover"
-          />
+        <div className="w-full h-auto overflow-x-hidden">
+          <img src="Community_Picture.jpg" alt="park crowd" />
         </div>
       </div>
 
