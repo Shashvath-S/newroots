@@ -1,5 +1,12 @@
 import { auth } from "@/auth";
-import { Calendar, MapPin, Users } from "lucide-react";
+import {
+  Calendar,
+  MapPin,
+  Users,
+  MessageCircle,
+  Globe,
+  Heart,
+} from "lucide-react";
 
 export default async function Home() {
   const session = await auth();
