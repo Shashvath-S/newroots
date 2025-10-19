@@ -14,6 +14,7 @@ export async function POST(request: NextRequest) {
   try {
     await db`INSERT INTO users (email, username, password, name, date) VALUES (${email}, ${username}, ${hashedPassword}, ${name}, ${dateString})`;
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       {
         message:

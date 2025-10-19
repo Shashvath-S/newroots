@@ -117,7 +117,7 @@ export default function Messaging() {
       setConversationsState(initialConversations);
     }
     // Reloads upon new user key
-  }, [userKey]);
+  }, [userKey, initialConversations, initialMessages]);
 
   // Persist messages and conversations under the CURRENT user's keys
   useEffect(() => {

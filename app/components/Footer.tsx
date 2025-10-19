@@ -1,8 +1,6 @@
 import { auth } from "@/auth";
 
 export default async function Footer() {
-  const session = await auth();
-
   return (
     <footer className="mt-12 border-t bg-white">
       <div className="container mx-auto px-6 lg:px-12 py-10">

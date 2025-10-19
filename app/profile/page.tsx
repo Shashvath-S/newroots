@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { User, MapPin, Globe, Languages, Calendar } from "lucide-react";
+import { User, Globe, Languages, Calendar } from "lucide-react";
 import db from "../lib/db";
 
 export default async function Profile() {
