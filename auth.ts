@@ -26,8 +26,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async authorize(credentials) {
         let user = (
-          await db`SELECT * FROM users WHERE email = ${credentials?.email} LIMIT 1`
+          await db`SELECT * FROM users WHERE username = ${credentials?.username} LIMIT 1`
         )[0] as IUser | undefined;
+
+        console.log(user);
 
         if (!user) {
           return null;
@@ -39,6 +41,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         );
 
         if (validPassword) {
+          console.log("User authenticated:", user.username);
           return {
             id: String(user.id),
             email: user.email,
@@ -52,7 +55,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   pages: {
-    signIn: "/login",
+    signIn: "/profile",
   },
   callbacks: {
     async jwt({ token, user }) {

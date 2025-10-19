@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 export default function Register() {
   const [error, setError] = useState("");
@@ -31,8 +32,17 @@ export default function Register() {
         const data = await res.json();
         setError(data.message || "Registration failed.");
       } else {
-        // Registration successful, redirect or show success
-        window.location.href = "/profile";
+        const res: any = await signIn("credentials", {
+          redirect: false,
+          username,
+          password,
+        } as any);
+
+        if (res?.error) {
+          setError(res.error || "Invalid credentials");
+          return;
+        }
+        window.location.href = "/register/demographics";
       }
     } catch (err) {
       setError("An error occurred. Please try again.");

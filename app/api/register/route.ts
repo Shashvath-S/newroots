@@ -4,12 +4,15 @@ import bcrypt from "bcryptjs";
 
 export async function POST(request: NextRequest) {
   const { name, email, username, password } = await request.json();
-  console.log(name);
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
+  const date = new Date();
+  const dateString = `${date.toLocaleString("default", {
+    month: "long",
+  })} ${date.getFullYear()}`;
 
   try {
-    await db`INSERT INTO users (email, username, password, name) VALUES (${email}, ${username}, ${hashedPassword}, ${name})`;
+    await db`INSERT INTO users (email, username, password, name, date) VALUES (${email}, ${username}, ${hashedPassword}, ${name}, ${dateString})`;
   } catch (error) {
     return NextResponse.json(
       {
