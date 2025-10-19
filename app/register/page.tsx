@@ -52,7 +52,10 @@ export default function Register() {
   return (
     <>
       <div className="bg-white w-full mt-8"></div>
-      <div className="min-h-screen bg-emerald-50 flex items-center justify-center px-6 py-12">
+      <div
+        className="min-h-screen bg-emerald-50 flex items-center justify-center px-6 py-12"
+        id="inputRegion"
+      >
         <div className="max-w-md w-full">
           <div className="bg-white shadow-xl border border-gray-200 rounded-lg p-8">
             <div className="text-center mb-8">
@@ -165,7 +168,7 @@ export default function Register() {
 
               <button
                 type="submit"
-                className="w-full bg-emerald-600 text-white font-semibold py-3 rounded-lg hover:bg-emerald-700 transition shadow-sm"
+                className="w-full cursor-pointer bg-emerald-600 text-white font-semibold py-3 rounded-lg hover:bg-emerald-700 transition shadow-sm"
               >
                 Register
               </button>
@@ -179,9 +182,6 @@ export default function Register() {
                 Sign in
               </Link>
             </p>
-          </div>
-          <div className="mt-8 text-center text-xs text-gray-500">
-            © 2024 Brand. All rights reserved.
           </div>
         </div>
       </div>

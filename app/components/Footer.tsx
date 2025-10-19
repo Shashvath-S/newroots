@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 
 export default async function Footer() {
   return (
-    <footer className="mt-12 border-t bg-white">
+    <footer className="border-t bg-white">
       <div className="container mx-auto px-6 lg:px-12 py-10">
         <div className="grid grid-cols-1 md:grid-cols-6 gap-8">
           <div className="md:col-span-2 flex flex-col items-start gap-6">
@@ -73,7 +73,7 @@ export default async function Footer() {
 
                 <a href="#" className="inline-flex items-center p-2 rounded">
                   <section className="ml-2 whitespace-nowrap">
-                    © 2025 NewRoots. All rights reserved.
+                    © 2025 NewRoots. Made with ♥︎.
                   </section>
                 </a>
               </div>

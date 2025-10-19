@@ -15,9 +15,9 @@ export default async function Profile() {
       ethnicity: string;
       immigrationStatus: string;
       language: string;
+      description: string;
     };
     date: string;
-    // bio: "Recently moved to Seattle from Mexico City. Looking to connect with other Spanish speakers and learn about local community resources.",
   }
 
   const session = await auth();
@@ -28,7 +28,8 @@ export default async function Profile() {
       'name', name,
       'email', email,
       'username', username,
-      'date', date
+      'date', date,
+      'description', description
     ) AS user_data
     FROM users WHERE id = ${session?.user?.id}`;
 
@@ -79,7 +80,7 @@ export default async function Profile() {
                   <a href="/register/demographics?edit=1">
                     <button
                       className="px-6 py-2 bg-emerald-600 text-white font-semibold rounded-lg 
-                    transition-all duration-300 ease-in-out
+                    transition-all duration-300 ease-in-out cursor-pointer
                     hover:bg-emerald-700 hover:shadow-lg hover:scale-105
                     active:scale-95 active:bg-emerald-800
                     focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
@@ -91,11 +92,11 @@ export default async function Profile() {
               </div>
 
               {/* Bio */}
-              {/* {userData.bio && (
+              {demographics.description && (
                 <div className="mt-6">
-                  <p className="text-gray-700">{userData.bio}</p>
+                  <p className="text-gray-700">{demographics.description}</p>
                 </div>
-              )} */}
+              )}
             </div>
           </div>
 

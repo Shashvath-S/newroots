@@ -36,12 +36,12 @@ export default function Resources() {
 
   return (
     <>
-      <div className="max-w-auto mx-auto bg-white shadow-xl border border-gray-200 mt-8 mb-12">
+      <div className="max-w-auto mx-auto bg-white border border-gray-200 mt-8">
         <div className="max-w-auto mx-auto">
-          <div className="flex flex-col md:flex-row gap-6 h-screen">
+          <div className="flex flex-col md:flex-row gap-y-6 md:gap-0 h-screen">
             {/* Aside features all places listed with Name/Address/Type/Timings */}
-            <aside className="flex-shrink-0 w-full md:w-80 lg:w-96 bg-gray-200 rounded-lg p-4 overflow-y-auto">
-              <h3 className="text-lg font-semibold text-gray-700 mb-3">
+            <aside className="flex-shrink-0 w-full md:w-80 lg:w-96 bg-gradient-to-br from-emerald-400 via-emerald-500 to-emerald-600 p-4 overflow-y-auto">
+              <h3 className="text-lg font-bold text-white mb-3">
                 Nearby Places
               </h3>
 
@@ -117,13 +117,13 @@ export default function Resources() {
             </aside>
 
             {/* Map implementation through flex iframe of Google Map embed */}
-            <main className="flex-1 flex rounded-lg overflow-hidden">
+            <main className="flex-1 flex overflow-hidden">
               <div className="relative w-full h-full">
                 <iframe
                   title="map"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5154.668036978319!2d-122.30917666760712!3d47.65607004118952!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5490148d64534c71%3A0xc91793fd02335246!2sHusky%20Union%20Building!5e0!3m2!1sen!2sus!4v1760823377612!5m2!1sen!2sus"
                   loading="lazy"
-                  className="absolute top-0 left-0 w-full h-full border-0 rounded-lg"
+                  className="absolute top-0 left-0 w-full h-full border-0"
                   allowFullScreen
                 ></iframe>
               </div>

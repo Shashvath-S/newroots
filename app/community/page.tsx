@@ -1,3 +1,5 @@
+import CommunityHeader from "@/app/components/CommunityHeader";
+
 export default function Community() {
   // List of events to pre-populate
   const events = [
@@ -106,26 +108,18 @@ export default function Community() {
   return (
     <>
       {/* Top of page */}
-      <div className="max-w-auto mx-auto bg-white shadow-xl border border-gray-200 mt-8 mb-12">
+      <div className="max-w-auto mx-auto bg-white border border-gray-200 mt-8 mb-12">
         {/* Page Header section */}
-        <section className="bg-emerald-100" aria-label="Hero">
-          <div className="container mx-auto px-6 lg:px-12 py-24 text-center">
-            <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight text-gray-900 leading-tight">
-              Community
-            </h1>
-            <p className="mt-4 text-lg md:text-xl text-gray-600">
-              Find a place to belong
-            </p>
-          </div>
-        </section>
+        <CommunityHeader />
 
         {/* Image section */}
-        <div className="w-full h-100 overflow-hidden relative">
+        {/* Show only the bottom 90px of the image */}
+        <div className="w-full overflow-hidden relative h-[500px]">
           <img
             src="Community_Picture.jpg"
             alt="park crowd"
-            className="w-full h-auto absolute  left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-            style={{ minHeight: "100%", minWidth: "100%", objectFit: "cover" }}
+            className="absolute left-0 bottom-0 w-full h-auto"
+            style={{ objectFit: "cover" }}
           />
         </div>
       </div>
@@ -133,12 +127,12 @@ export default function Community() {
       <main className="w-full max-w-auto mx-auto">
         <div className="max-w-auto mx-auto">
           {/* Section for Community Events descriptions (pre-populated) */}
-          <section className="rounded-lg p-8">
-            <h2 className="text-lg font-semibold text-gray-800">
+          <section className="rounded-lg p-8 pt-0">
+            <h2 className="text-3xl text-center font-bold text-gray-800">
               Community Events
             </h2>
 
-            <p className="text-sm text-gray-500 mt-1 mb-6">
+            <p className="text-base text-center text-gray-500 mt-1 mb-12">
               Based on your interests
             </p>
 
@@ -187,11 +181,11 @@ export default function Community() {
 
                   {/* Buttons for functionality */}
                   <div className="mt-auto flex justify-center gap-x-5">
-                    <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50">
+                    <button className="px-4 py-2 cursor-pointer text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50">
                       Details
                     </button>
 
-                    <button className="px-4 py-2 text-sm font-medium text-white bg-black border border-gray-200 rounded-md hover:bg-gray-50 hover:text-black">
+                    <button className="px-4 py-2 cursor-pointer text-sm font-medium text-white bg-black border border-gray-200 rounded-md hover:bg-gray-50 hover:text-black">
                       Add to Events
                     </button>
                   </div>
@@ -204,9 +198,11 @@ export default function Community() {
         <div className="w-full bg-gray-100">
           {/* Section for Communities' descriptions */}
           <section className="max-w-auto rounded-lg p-8">
-            <h2 className="text-lg font-semibold text-gray-800">Communities</h2>
+            <h2 className="text-3xl text-center font-bold text-gray-800">
+              Communities
+            </h2>
 
-            <p className="text-sm text-gray-500 mt-1 mb-6">
+            <p className="text-base text-center text-gray-500 mt-1 mb-10">
               Based on your past
             </p>
 
@@ -244,7 +240,7 @@ export default function Community() {
 
                   <div className="mt-auto flex justify-center">
                     {/* Button for details */}
-                    <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50">
+                    <button className="px-4 py-2 cursor-pointer text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50">
                       Details
                     </button>
                   </div>

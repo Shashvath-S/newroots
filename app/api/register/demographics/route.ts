@@ -10,6 +10,7 @@ type DemographicsBody = {
   interests: string[];
   language: string;
   immigrationStatus: string;
+  description: string;
 };
 
 export async function POST(req: Request) {
@@ -21,27 +22,15 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    console.log(body);
-
-    const { languages, immigrationStatus } = body;
-
-    console.log(!languages, immigrationStatus == "");
-
-    // Basic validation for new fields
-    if (!languages || immigrationStatus == "") {
-      return NextResponse.json(
-        { message: "Invalid request body: missing fields" },
-        { status: 400 }
-      );
-    }
-
     // Basic validation
     if (
       typeof body.age !== "number" ||
       !body.gender ||
       !body.location ||
       !body.ethnicity ||
-      !Array.isArray(body.interests)
+      !Array.isArray(body.interests) ||
+      !body.languages ||
+      body.immigrationStatus == ""
     ) {
       return NextResponse.json(
         { message: "Invalid request body" },
@@ -56,7 +45,8 @@ export async function POST(req: Request) {
       ethnicity: String(body.ethnicity),
       interests: body.interests.map(String),
       language: body.languages.map(String),
-      immigrationStatus: String(immigrationStatus),
+      immigrationStatus: String(body.immigrationStatus),
+      description: String(body.description),
     };
 
     await db`UPDATE users SET demographics = ${JSON.stringify(

@@ -25,14 +25,24 @@ const BASE_STORAGE_KEY_CONVERSATIONS = "messaging:conversations_v1";
 const userKeyFor = (base: string, userId: string) => `${base}:${userId}`;
 
 // Initial data moved outside the component to avoid re-creation on each render
-const initialConversations: Conversation[] = new Array(10)
-  .fill(0)
-  .map((_, i) => ({
-    id: i,
-    name: `Name ${i + 1}`,
+// Initial data moved outside the component to avoid re-creation on each render
+const initialConversations: Conversation[] = [
+  { id: 0, name: "Sarah Johnson", snippet: "No Messages Yet", time: "00:00" },
+  { id: 1, name: "Michael Chen", snippet: "No Messages Yet", time: "00:00" },
+  { id: 2, name: "Emily Rodriguez", snippet: "No Messages Yet", time: "00:00" },
+  { id: 3, name: "David Kim", snippet: "No Messages Yet", time: "00:00" },
+  {
+    id: 4,
+    name: "Jessica Martinez",
     snippet: "No Messages Yet",
     time: "00:00",
-  }));
+  },
+  { id: 5, name: "Daniel Anderson", snippet: "No Messages Yet", time: "00:00" },
+  { id: 6, name: "Ashley Patel", snippet: "No Messages Yet", time: "00:00" },
+  { id: 7, name: "Christopher Lee", snippet: "No Messages Yet", time: "00:00" },
+  { id: 8, name: "Maria Garcia", snippet: "No Messages Yet", time: "00:00" },
+  { id: 9, name: "James Thompson", snippet: "No Messages Yet", time: "00:00" },
+];
 
 const initialMessages: Record<number, Message[]> = {
   0: [
@@ -367,9 +377,9 @@ export default function Messaging() {
         style={{ height: `calc(100vh - var(--site-header-height, 96px))` }}
       >
         <main className="max-w-auto mx-auto px-4 py-8 h-full">
-          <div className="bg-emerald-100 rounded-xl shadow-md border border-gray-100 overflow-hidden h-full flex flex-col">
+          <div className="bg-gradient-to-br from-emerald-400 via-emerald-500 to-emerald-600 rounded-xl shadow-md border border-gray-100 overflow-hidden h-full flex flex-col">
             {/* Header (fixed height within the messaging panel) */}
-            <div className="bg-white px-4 py-3 border-b border-gray-200 flex items-center gap-4 flex-none">
+            <div className="bg-gray-100 px-4 py-3 border-b border-gray-200 flex items-center gap-4 flex-none">
               <div className="flex items-center gap-3">
                 <div className="w-2.5 h-2.5 bg-gray-300 rounded-full" />
                 <div className="w-2.5 h-2.5 bg-gray-300 rounded-full" />
@@ -397,7 +407,7 @@ export default function Messaging() {
                         c.id === selectedId ? "bg-gray-50" : ""
                       }`}
                     >
-                      <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500">
+                      <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-gray-500">
                         👤
                       </div>
                       <div className="flex-1 min-w-0">
@@ -435,7 +445,7 @@ export default function Messaging() {
               {/* Messages section sits next to the aside; ensure it doesn't cover the aside's bottom controls */}
               <section className="flex-1 bg-white rounded-lg p-6 flex flex-col border border-gray-100 h-full relative z-0">
                 <div className="flex items-center gap-3 mb-4">
-                  <button className="text-gray-600">←</button>
+                  <button className="text-gray-600 cursor-pointer">←</button>
 
                   <h3 className="text-lg font-semibold text-gray-700 flex-1">
                     {conversationsState.find((c) => c.id === selectedId)
@@ -446,7 +456,7 @@ export default function Messaging() {
                   <div className="relative">
                     <button
                       onClick={() => setMenuOpen((s) => !s)}
-                      className="px-2 py-1 rounded hover:bg-gray-100"
+                      className="px-2 py-1 rounded cursor-pointer hover:bg-gray-100"
                       title="Options"
                     >
                       ⋮
@@ -506,10 +516,10 @@ export default function Messaging() {
                     >
                       {m.side === "left" ? (
                         <>
-                          <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                          <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
                             👤
                           </div>
-                          <div className="bg-gray-100 text-gray-800 px-4 py-2 rounded-2xl max-w-xs">
+                          <div className="bg-emerald-100 text-gray-800 px-4 py-2 rounded-2xl max-w-xs">
                             {m.text}
                           </div>
                         </>
@@ -534,7 +544,7 @@ export default function Messaging() {
                   <div className="flex items-center gap-3">
                     {/* Attach file button [VISUAL] */}
                     <button
-                      className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center"
+                      className="w-10 h-10 rounded-full bg-gray-100 flex items-center cursor-pointer justify-center"
                       title="Attach"
                     >
                       ＋
@@ -553,7 +563,7 @@ export default function Messaging() {
                       {/* Send button can also send message (using enter key functionality) */}
                       <button
                         onClick={sendMessage}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400"
+                        className="absolute cursor-pointer right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-green-500 hover:scale-130 transition-all duration-200"
                         title="Send"
                       >
                         ➤

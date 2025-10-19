@@ -70,6 +70,7 @@ export default function DemographicsRegisterForm({
     useState("");
   const [age, setAge] = useState<string>("");
   const [location, setLocation] = useState("");
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     if (editMode) {
@@ -83,6 +84,7 @@ export default function DemographicsRegisterForm({
         setSelectedImmigrationStatus(data.immigrationStatus || "");
         setAge(data.age ? String(data.age) : "");
         setLocation(data.location || "");
+        setDescription(data.description || "");
       }
       getUserDemographics();
     }
@@ -91,8 +93,8 @@ export default function DemographicsRegisterForm({
   const DropdownSelect = ({ value, onChange, options }: any) => (
     <Listbox value={value} onChange={onChange}>
       <div className="relative mt-1">
-        <ListboxButton className="relative w-full cursor-default rounded-lg bg-white py-3 pl-4 pr-10 text-left border border-gray-200 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
-          <span className="block truncate">{value}</span>
+        <ListboxButton className="relative w-full cursor-default rounded-lg bg-white py-2.5 pl-3 pr-10 text-left border border-gray-200 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
+          <span className="block truncate text-sm">{value}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon
               className="h-5 w-5 text-gray-400"
@@ -143,8 +145,8 @@ export default function DemographicsRegisterForm({
   const MultiSelect = ({ value, onChange, options }: any) => (
     <Listbox value={value} onChange={onChange} multiple>
       <div className="relative mt-1">
-        <ListboxButton className="relative w-full cursor-default rounded-lg bg-white py-3 pl-4 pr-10 text-left border border-gray-200 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
-          <span className="block truncate">{value.join(", ")}</span>
+        <ListboxButton className="relative w-full cursor-default rounded-lg bg-white py-2.5 pl-3 pr-10 text-left border border-gray-200 focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
+          <span className="block truncate text-sm">{value.join(", ")}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon
               className="h-5 w-5 text-gray-400"
@@ -222,6 +224,7 @@ export default function DemographicsRegisterForm({
           interests: selectedInterests,
           languages: selectedLanguages,
           immigrationStatus: selectedImmigrationStatus,
+          description: description,
         }),
       });
       if (!res.ok) {
@@ -241,9 +244,9 @@ export default function DemographicsRegisterForm({
     <>
       <div className="bg-white w-full mt-8"></div>
       <div className="min-h-screen bg-emerald-50 flex items-center justify-center px-6 py-12">
-        <div className="max-w-md w-full">
+        <div className="max-w-5xl w-full">
           <div className="bg-white shadow-xl border border-gray-200 rounded-lg p-8">
-            <div className="text-center mb-8">
+            <div className="text-center mb-6">
               <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
                 Tell Us About Yourself
               </h1>
@@ -257,16 +260,53 @@ export default function DemographicsRegisterForm({
                 {error}
               </div>
             )}
+
             <form
-              className="space-y-5"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-8"
               onSubmit={handleSubmit}
               autoComplete="off"
             >
-              <div>
+              {/* Left Column - Demographics */}
+              <div className="space-y-4">
+                <div>
+                  <label
+                    htmlFor="age"
+                    className="block text-sm font-semibold text-gray-800 mb-1"
+                  >
+                    Age
+                  </label>
+                  <input
+                    id="age"
+                    name="age"
+                    type="number"
+                    min="18"
+                    max="120"
+                    className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition text-sm"
+                    placeholder="25"
+                    value={age}
+                    onChange={(e) => setAge(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="gender"
+                    className="block text-sm font-semibold text-gray-800 mb-1"
+                  >
+                    Gender
+                  </label>
+                  <DropdownSelect
+                    value={selectedGender}
+                    onChange={setSelectedGender}
+                    options={genders}
+                  />
+                </div>
+
                 <div>
                   <label
                     htmlFor="ethnicity"
-                    className="block text-sm font-semibold text-gray-800 mb-2"
+                    className="block text-sm font-semibold text-gray-800 mb-1"
                   >
                     Ethnicity
                   </label>
@@ -276,104 +316,101 @@ export default function DemographicsRegisterForm({
                     options={ethnicities}
                   />
                 </div>
-                <label
-                  htmlFor="age"
-                  className="block text-sm font-semibold text-gray-800 mb-2"
-                >
-                  Age
-                </label>
-                <input
-                  id="age"
-                  name="age"
-                  type="number"
-                  min="18"
-                  max="120"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition"
-                  placeholder="25"
-                  value={age}
-                  onChange={(e) => setAge(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="gender"
-                  className="block text-sm font-semibold text-gray-800 mb-2"
-                >
-                  Gender
-                </label>
-                <DropdownSelect
-                  value={selectedGender}
-                  onChange={setSelectedGender}
-                  options={genders}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="interests"
-                  className="block text-sm font-semibold text-gray-800 mb-2"
-                >
-                  Interests
-                </label>
-                <MultiSelect
-                  value={selectedInterests}
-                  onChange={setSelectedInterests}
-                  options={interests}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="languages"
-                  className="block text-sm font-semibold text-gray-800 mb-2"
-                >
-                  Languages
-                </label>
-                <MultiSelect
-                  value={selectedLanguages}
-                  onChange={setSelectedLanguages}
-                  options={languages}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="immigration-status"
-                  className="block text-sm font-semibold text-gray-800 mb-2"
-                >
-                  Immigration Status
-                </label>
-                <DropdownSelect
-                  value={selectedImmigrationStatus}
-                  onChange={setSelectedImmigrationStatus}
-                  options={immigrationStatuses}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="location"
-                  className="block text-sm font-semibold text-gray-800 mb-2"
-                >
-                  Location
-                </label>
+
                 <div>
+                  <label
+                    htmlFor="location"
+                    className="block text-sm font-semibold text-gray-800 mb-1"
+                  >
+                    Location
+                  </label>
                   <input
                     id="location"
                     name="location"
                     type="text"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition"
-                    placeholder="Enter your location"
+                    className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition text-sm"
+                    placeholder="Seattle, WA"
                     required
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="interests"
+                    className="block text-sm font-semibold text-gray-800 mb-1"
+                  >
+                    Interests
+                  </label>
+                  <MultiSelect
+                    value={selectedInterests}
+                    onChange={setSelectedInterests}
+                    options={interests}
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="languages"
+                    className="block text-sm font-semibold text-gray-800 mb-1"
+                  >
+                    Languages
+                  </label>
+                  <MultiSelect
+                    value={selectedLanguages}
+                    onChange={setSelectedLanguages}
+                    options={languages}
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="immigration-status"
+                    className="block text-sm font-semibold text-gray-800 mb-1"
+                  >
+                    Immigration Status
+                  </label>
+                  <DropdownSelect
+                    value={selectedImmigrationStatus}
+                    onChange={setSelectedImmigrationStatus}
+                    options={immigrationStatuses}
                   />
                 </div>
               </div>
 
-              <button
-                type="submit"
-                className="w-full bg-emerald-600 text-white font-semibold py-3 rounded-lg hover:bg-emerald-700 transition shadow-sm"
-              >
-                Continue
-              </button>
+              {/* Right Column - Description */}
+              <div className="flex flex-col">
+                <div className="flex-1">
+                  <label
+                    htmlFor="description"
+                    className="block text-sm font-semibold text-gray-800 mb-1"
+                  >
+                    Tell Us Your Story
+                  </label>
+                  <p className="text-xs text-gray-600 mb-2">
+                    Share a bit about yourself, your journey, what you're
+                    looking for in the community, or anything you'd like others
+                    to know.
+                  </p>
+                  <textarea
+                    id="description"
+                    name="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={18}
+                    className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition text-sm resize-none"
+                    placeholder="Example: I recently moved to Seattle from Mexico City. I'm passionate about technology and looking to connect with other Spanish speakers in the area. I'd love to find mentors who can help me navigate the job market here..."
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-emerald-600 text-white font-semibold py-3 rounded-lg hover:bg-emerald-700 transition shadow-sm mt-4"
+                >
+                  Continue
+                </button>
+              </div>
             </form>
           </div>
         </div>

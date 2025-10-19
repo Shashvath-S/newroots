@@ -8,37 +8,40 @@ export default async function NavBar() {
   const session = await auth();
 
   return (
-    <nav className="flex justify-between items-center box-border max-w-full mx-8 my-4 py-2">
-      <div className="flex items-center">
-        <Link href="/" className="flex items-center">
-          <Image src="/image.png" height={50} width={50} alt="logo" />
+    <nav className="flex justify-between items-center box-border max-w-full mx-8 h-12">
+      <div className="flex items-center pt-8">
+        <Link
+          href="/"
+          className="flex items-center hover:scale-110 transition-transform duration-200 h-full"
+        >
+          <Image src="/image.png" height={40} width={40} alt="logo" />
         </Link>
       </div>
       <div className="text-base flex items-center">
         {session && (
           <>
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-8 h-full pt-7">
               <Link
                 href="/profile"
-                className="hover:text-emerald-600 transition"
+                className="flex items-center h-full hover:text-emerald-600 transition"
               >
                 Profile
               </Link>
               <Link
                 href="/resources"
-                className="hover:text-emerald-600 transition"
+                className="flex items-center h-full hover:text-emerald-600 transition"
               >
                 Resources
               </Link>
               <Link
                 href="/community"
-                className="hover:text-emerald-600 transition"
+                className="flex items-center h-full hover:text-emerald-600 transition"
               >
                 Community
               </Link>
               <Link
                 href="/messaging"
-                className="hover:text-emerald-600 transition"
+                className="flex items-center h-full hover:text-emerald-600 transition"
               >
                 Messaging
               </Link>
