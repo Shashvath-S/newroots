@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "NewRoots",
   description: "Help find your new community!",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
