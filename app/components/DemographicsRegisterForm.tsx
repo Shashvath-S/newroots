@@ -9,8 +9,6 @@ import {
   Transition,
 } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
 
 const genders = ["Male", "Female", "Non-binary", "Other"];
 
