@@ -24,46 +24,51 @@ const BASE_STORAGE_KEY_MESSAGES = "messaging:messages_v1";
 const BASE_STORAGE_KEY_CONVERSATIONS = "messaging:conversations_v1";
 const userKeyFor = (base: string, userId: string) => `${base}:${userId}`;
 
+// Initial data moved outside the component to avoid re-creation on each render
+const initialConversations: Conversation[] = new Array(10)
+  .fill(0)
+  .map((_, i) => ({
+    id: i,
+    name: `Name ${i + 1}`,
+    snippet: "No Messages Yet",
+    time: "00:00",
+  }));
+
+const initialMessages: Record<number, Message[]> = {
+  0: [
+    {
+      id: 1,
+      side: "left",
+      text: "Hello! Any suggestions for activities to do?",
+      time: "10:00",
+    },
+    {
+      id: 2,
+      side: "right",
+      text: "Perhaps we could try this?",
+      meta: "Homemade Dumplings\neverydumplingever.com",
+      time: "10:04",
+    },
+    {
+      id: 3,
+      side: "right",
+      text: "Let's do it!",
+      time: "10:07",
+    },
+  ],
+};
+
 export default function Messaging() {
-  // Session namespaces stored data per account
+  // Session namespaces stored data per account (memoized)
   const { data: session } = useSession();
-  const userKey =
-    session?.user?.email ?? session?.user?.id ?? session?.user?.name ?? "anon";
-
-  // Load initial conversations through array, by filling a Conversation with set messages
-  const initialConversations: Conversation[] = new Array(10)
-    .fill(0)
-    .map((_, i) => ({
-      id: i,
-      name: `Name ${i + 1}`,
-      snippet: "No Messages Yet",
-      time: "00:00",
-    }));
-
-  // Load initial messages for the first conversation (per-user default)
-  const initialMessages: Record<number, Message[]> = {
-    0: [
-      {
-        id: 1,
-        side: "left",
-        text: "Hello! Any suggestions for activities to do?",
-        time: "10:00",
-      },
-      {
-        id: 2,
-        side: "right",
-        text: "Perhaps we could try this?",
-        meta: "Homemade Dumplings\neverydumplingever.com",
-        time: "10:04",
-      },
-      {
-        id: 3,
-        side: "right",
-        text: "Let's do it!",
-        time: "10:07",
-      },
-    ],
-  };
+  const userKey = React.useMemo(
+    () =>
+      session?.user?.email ??
+      session?.user?.id ??
+      session?.user?.name ??
+      "anon",
+    [session?.user?.email, session?.user?.id, session?.user?.name]
+  );
 
   // Load initial states of messaging features
   const [conversationsState, setConversationsState] =
@@ -85,7 +90,11 @@ export default function Messaging() {
   }>({ isEditing: false, conversationId: null, messageId: null });
   const [addName, setAddName] = useState<string>("");
 
+  // Prevent initial effect from overwriting stored per-user data when component mounts
+  const hasLoadedRef = React.useRef(false);
+
   // Load persisted messages and conversations for the CURRENT user only
+  // Load persisted messages and conversations for the CURRENT user only on mount
   useEffect(() => {
     try {
       const msgsKey = userKeyFor(BASE_STORAGE_KEY_MESSAGES, userKey);
@@ -95,32 +104,28 @@ export default function Messaging() {
       const rawConvs = localStorage.getItem(convsKey);
 
       if (rawMsgs) {
-        // replace initial messages with the per-user stored messages
         const parsed = JSON.parse(rawMsgs) as Record<number, Message[]>;
         setMessagesMap(parsed);
-      } else {
-        // ensure each user starts with the same defaults (do not merge other users' data)
-        setMessagesMap(initialMessages);
       }
 
       if (rawConvs) {
         const parsedConvs = JSON.parse(rawConvs) as Conversation[];
-        if (Array.isArray(parsedConvs)) {
-          setConversationsState(parsedConvs);
-        }
-      } else {
-        setConversationsState(initialConversations);
+        if (Array.isArray(parsedConvs)) setConversationsState(parsedConvs);
       }
+      // mark as loaded to allow persistence effect to run thereafter
+      hasLoadedRef.current = true;
     } catch (err) {
       console.warn("Failed to load messaging state:", err);
-      setMessagesMap(initialMessages);
-      setConversationsState(initialConversations);
     }
-    // Reloads upon new user key
-  }, [userKey, initialConversations, initialMessages]);
+    // only run when userKey changes
+  }, [userKey]);
 
   // Persist messages and conversations under the CURRENT user's keys
+  // Persist messages and conversations under the CURRENT user's keys, but only after
+  // the initial load completed. This prevents accidental overwrites when a different
+  // session initializes and the component mounts for the first time.
   useEffect(() => {
+    if (!hasLoadedRef.current) return;
     try {
       const msgsKey = userKeyFor(BASE_STORAGE_KEY_MESSAGES, userKey);
       const convsKey = userKeyFor(BASE_STORAGE_KEY_CONVERSATIONS, userKey);
